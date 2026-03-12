@@ -68,18 +68,21 @@
 
 ## Запуск
 
-Перед запуском приложения необходимо поднять базу данных в Docker:
+Перед запуском приложения необходимо:
+- поднять базу данных в Docker:
 
 ```bash
 docker compose -f docker-compose-local.yml up -d
 ```
 
+- создать .env файл по примеру [.env_example](.env_example)
+
 После этого:
 
 - **API**: `python -m src.app` или `uvicorn src.app.__main__:app --host 127.0.0.1 --port 8000`.
 - **Документация API** (после запуска API): [Swagger UI](http://127.0.0.1:8000/docs), [ReDoc](http://127.0.0.1:8000/redoc).
-- **Celery worker**: `celery -A src.app.celery worker -l info`.
-- **Celery beat** (для периодической проверки платежей каждые 3 часа): `celery -A src.app.celery beat -l info`.
+- **Celery worker**: `celery -A src.app.celery_app:celery_app worker -l info`.
+- **Celery beat** (для периодической проверки платежей каждые 3 часа): `celery -A src.app.celery_app:celery_app beat -l info`.
 - **Миграции**: `alembic upgrade head`.
 
 Конфигурация через переменные окружения (см. `.env` и `src/app/core/config.py`): PostgreSQL, Redis, JWT, URL эквайринга и др.
