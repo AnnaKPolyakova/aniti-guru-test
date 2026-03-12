@@ -16,7 +16,6 @@ from src.app.services.users import (
     get_user_manager,
     refresh_backend,
 )
-from src.app.tasks import check_payment_status_task
 
 auth_router = APIRouter(
     prefix="/auth",
@@ -63,7 +62,6 @@ async def refresh(
 ) -> Response:
     strategy = cast(Strategy[Any, Any], auth_backend.get_strategy())
     access_token = await strategy.write_token(user)
-    check_payment_status_task.apply_async(args=(2,))
     return JSONResponse(
         content={"access_token": access_token, "token_type": "bearer"},
         status_code=200,

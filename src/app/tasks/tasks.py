@@ -5,7 +5,7 @@ import asyncio
 from loguru import logger
 from sqlalchemy import select
 
-from src.app.celery import celery_app
+from src.app.celery_app import celery_app
 from src.app.models.db_models.payment import PaymentORM, PaymentStatus
 from src.app.tasks.utils import postgres_session
 
